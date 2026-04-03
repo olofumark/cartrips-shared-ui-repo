@@ -1,0 +1,40 @@
+@if(apiAvailable()){
+<div class="d-flex justify-content-start">
+    <div class="pickup-selector">
+        <label class="label text-sm fs-12 text-muted mb-2" style="font-size: 14px;">{{ label() }} </label>
+        <!-- <p class="help-text text-sm fs-12 text-muted mb-2" style="font-size: 14px;">{{ helpText() }}</p> -->
+
+        <google-map [height]="height()" width="100%" [center]="center()" [zoom]="zoom()"
+            (mapClick)="onMapClick($event)">
+
+            @if(markerPosition()){
+
+            <map-marker [position]="markerPosition()" draggable="true" (dragend)="onMarkerDragEnd($event)"
+                title="Drag to adjust pickup point"> </map-marker>
+            }
+
+        </google-map>
+
+        <!-- @if(markerPosition()){
+                    <div   class="coords-display"> Coordinates: {{ markerPosition()!.lat | number:'1.6-6' }}, {{
+                        markerPosition()!.lng | number:'1.6-6' }} </div>
+                } -->
+
+        <input class="d-none" [value]="pickuppoint()" (input)="onInput($event)">
+
+    </div>
+
+
+
+</div>
+}@else{
+<!-- Fallback UI when offline or API fails -->
+<div class="offline-placeholder" style="padding: 20px; border: 1px dashed #ccc; background: #f9f9f9;">
+    <p>📍 <strong>Map Unavailable</strong></p>
+    <p>Check your internet connection to use the interactive picker.</p>
+
+    <!-- Crucial: keep the form functional even if the map is gone -->
+    <input type="text" class="form-control form-control-lg" [value]="pickuppoint()" (input)="onInput($event)"
+        placeholder="Enter coordinates manually (lat, lng)">
+</div>
+}

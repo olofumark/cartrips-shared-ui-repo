@@ -1,0 +1,186 @@
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+    <section class="">
+        <div class="row g-0">
+            <!-- LOGIN -->
+            @if(LOGIN_STAGE){
+            <div class="col-12 d-flex m-auto">
+                <div class="row  m-auto">
+                    <div class="col-sm-10 col-xxl-12  m-auto mt-4 ">
+
+                        <a routerLink="/"><img style="height: 72px;"
+                                src="../../../../assets/images/logo/newlogo2Square.svg" class="h-50px mb-4"
+                                alt="logo"></a>
+
+                        <div style="height: 72px;"></div>
+                        <h2 class="mb-0">Welcomeuu</h2>
+                        <p class="mx-0 mb-0">please login to access your account</p>
+
+
+                        <!-- Social buttons -->
+                        <div class="row mt-5">
+                            <!-- <h1>{{whatsup}}</h1>
+                            <app-outputtest (deeOutput)="readWhatsup($event)" class="mb-0"></app-outputtest> -->
+                        </div>
+
+                        <!-- Form START -->
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+                            <!-- Email -->
+                            <div class="input-floating-label form-floating mb-4">
+                                <input id="username" type="text"
+                                    class="form-control {{f['username'].invalid ? 'is-invalid':'is-valid'}}"
+                                    formControlName="username" placeholder="email or phone" required>
+                                <label for="floatingInput">Email or Phone</label>
+                            </div>
+                            @if( submitted || (f['username'].dirty || f['username'].touched)){
+                            @if( f['username'].invalid ){
+                            <div class="invalid-feedback"> Please enter your username. </div>
+                            }
+                            }
+
+                            <!-- Password -->
+                            @if( submitted || (f['password'].dirty || f['password'].touched)){
+
+                            @if( f['password'].invalid ){
+                            <div class="badge bg-danger bg-opacity-10 text-danger">Enter password</div>
+                            }
+                            }
+                            <div class="input-floating-label form-floating mb-4 position-relative">
+                                <input type="password" class="form-control fakepassword pe-6" formControlName="password"
+                                    placeholder="Enter your password" required>
+                                <label for="floatingInput">Password</label>
+                                <span class="position-absolute top-50 end-0 translate-middle-y p-0 me-2">
+                                    <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
+                                </span>
+                            </div>
+                            @if( submitted || (f['password'].dirty || f['password'].touched)){
+                            @if( f['password'].invalid ){
+                            <div class="invalid-feedback"> Please enter your password. </div>
+                            }
+                            }
+
+
+                            <!-- Check box -->
+                            <div class="mb-4 d-flex justify-content-between">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkbox-1">
+                                    <label class="form-check-label" for="checkbox-1">Remember me</label>
+                                </div>
+
+                                <!-- <a href="forgot-password.html" class="link-underline-primary"> Forgot password?</a> -->
+                            </div>
+
+                            <!-- Button -->
+                            <div class="align-items-center mt-0">
+                                <div class="d-grid">
+                                    <!-- <button type="submit" class="btn btn-dark mb-0" [disabled]="!loginForm.valid">Login</button> -->
+                                    <button type="submit" class="btn btn-primary mb-0 rounded-pill"
+                                        [disabled]="loaderService.isLoadingData()">
+                                        @if(loaderService.isLoadingData()){
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span class="px-1"></span>
+                                        <span role="status">Signing in...</span>
+                                        }
+                                        @if(!loaderService.isLoadingData()){
+                                        <span role="status">Login</span>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+
+                            @if(errorMessage){
+                            <div class="mt-2"><span
+                                    class="badge bg-danger bg-opacity-10 text-danger">{{errorMessage}}</span></div>
+                            }
+
+                        </form>
+                        <!-- Form END -->
+
+                        <!-- Sign up link -->
+                        <div class="mt-4 text-center">
+                            <!-- <span>Not registered yet?<a routerLink="/createaccount"> Create an account</a></span> -->
+                            <span>Not registered yet?<a routerLink="/createaccount1"
+                                    [queryParams]="externalQueryParams"> Create an account</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @if(OTP_STAGE){
+            <div class="col-12 d-flex m-auto">
+                <div class="row  m-auto">
+                    <div class="col-sm-10 col-xxl-12  m-auto mt-4 ">
+
+                        <a routerLink="/"><img style="height: 72px;"
+                                src="../../../../assets/images/logo/newlogo2Square.svg" class="h-50px mb-4"
+                                alt="logo"></a>
+
+                        <div style="height: 72px;"></div>
+                        <h2 class="mb-0">Enter OTP you received</h2>
+                        <p class="mx-0 mb-0">A one-time password has been sent to your registered email address</p>
+
+
+                        <!-- Social buttons -->
+                        <div class="row mt-5">
+                            <!-- <h1>{{whatsup}}</h1>
+                            <app-outputtest (deeOutput)="readWhatsup($event)" class="mb-0"></app-outputtest> -->
+                        </div>
+
+                        <!-- Form START -->
+                        <form [formGroup]="otpForm" (ngSubmit)="onSubmitOTP()" novalidate>
+                            <!-- Email -->
+                            <div class="input-floating-label form-floating mb-4">
+                                <input id="otp" type="text"
+                                    class="form-control {{f2['otp'].invalid ? 'is-invalid':'is-valid'}}"
+                                    formControlName="otp" placeholder="enter your OTP" required>
+                                <label for="floatingInput">OTP</label>
+                            </div>
+                            @if( submitted || (f2['otp'].dirty || f2['otp'].touched)){
+                            @if( f2['otp'].invalid ){
+                            <div class="invalid-feedback"> Please enter your OTP</div>
+                            }
+                            }
+ 
+
+                            <!-- Button -->
+                            <div class="align-items-center mt-0">
+                                <div class="d-grid">
+                                    <!-- <button type="submit" class="btn btn-dark mb-0" [disabled]="!loginForm.valid">Login</button> -->
+                                    <button type="submit" class="btn btn-primary mb-0 rounded-pill"
+                                        [disabled]="loaderService.isLoadingData()">
+                                        @if(loaderService.isLoadingData()){
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span class="px-1"></span>
+                                        <span role="status">Signing in...</span>
+                                        }
+                                        @if(!loaderService.isLoadingData()){
+                                        <span role="status">Login</span>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+
+                            @if(errorMessage){
+                            <div class="mt-2"><span
+                                    class="badge bg-danger bg-opacity-10 text-danger">{{errorMessage}}</span></div>
+                            }
+
+                        </form>
+                        <!-- Form END -->
+
+                        <!-- Sign up link -->
+                        <div class="mt-4 text-center">
+                            <!-- <span>Not registered yet?<a routerLink="/createaccount"> Create an account</a></span> -->
+                            <span>Not registered yet?<a routerLink="/createaccount1"
+                                    [queryParams]="externalQueryParams"> Create an account</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+        </div>
+    </section>
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->

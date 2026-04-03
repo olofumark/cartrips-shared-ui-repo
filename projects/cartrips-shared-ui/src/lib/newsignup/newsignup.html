@@ -1,0 +1,243 @@
+<main>
+    <section class="">
+        <div class="row g-0">
+            <!-- Right -->
+            <div class="col-12 d-flex m-auto">
+                <div class="row  m-auto">
+
+                    @if(WARNING_STAGE){
+                    <div class="col-sm-10 col-xxl-12  m-auto mt-4 mb-5">
+                        <a routerLink="/"><img style="height: 72px;"
+                                src="../../../../assets/images/logo/newlogo2Square.svg" class="h-50px mb-4 mt-5"
+                                alt="logo"></a>
+                        <div class="card bg-body-tertiary border-0">
+                            <div class="card-body">
+                                <h5 class="card-title">Hi, Welcome</h5>
+                                <p class="card-text">Please do not use the browser's forward and backward button during
+                                    this signup process as this
+                                    will corrupt the process. Click proceed to continue.</p>
+                                <button class="btn btn-primary"
+                                    (click)="WARNING_STAGE = false; REQUESTPHONEVERIFICATION_STAGE=true">Proceed</button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                    @if(REQUESTPHONEVERIFICATION_STAGE){
+                    <div class="col-sm-10 col-xxl-12  m-auto mt-4  mb-5">
+
+                        <!-- <a routerLink="/"><img style="height: 72px;" src="../../../../assets/images/logo/newlogo2.svg"  -->
+                        <a routerLink="/"><img style="height: 72px;"
+                                src="../../../../assets/images/logo/newlogo2Square.svg" class="h-50px mb-4 mt-5"
+                                alt="logo"></a>
+
+                        <h2 class="mb-0 mb-2">Welcome</h2>
+                        <p class="mx-0 mb-2 text-muted">Let's start by verifying your phone number</p>
+
+
+                        <!-- Form START -->
+                        <form [formGroup]="requestPhoneForm" (ngSubmit)="onSubmit()" novalidate>
+                            <!-- Email -->
+                            <div class="input-group mb-3">
+                                <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">+234</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Nigeria (+324)</a></li>
+                                    <!-- <li><hr class="dropdown-divider"></li> -->
+                                    <!-- <li><a class="dropdown-item" href="#">Separated link</a></li> -->
+                                </ul>
+                                <input maxlength="11" type="number"
+                                    class="form-control {{f['phone'].invalid ? 'is-invalid':'is-valid'}}"
+                                    formControlName="phone" placeholder="e.g 7031234567" aria-label="Phone number"
+                                    required>
+                            </div>
+
+                            <!-- <div class="input-floating-label form-floating mb-4">
+                            <input id="username" type="text" class="form-control {{f['phone'].invalid ? 'is-invalid':'is-valid'}}"
+                             formControlName="username" placeholder="username" required>
+                            <label for="floatingInput">Your Phone</label>
+                        </div>
+                        @if( submitted || (f['phone'].dirty || f['phone'].touched)){
+                          @if( f['phone'].invalid ){
+                              <div class="invalid-feedback"> Please enter your username. </div>
+                          }
+                        } -->
+
+                            <!-- Button -->
+                            <div class="align-items-center mt-0">
+                                <div class="d-grid">
+                                    <!-- <button type="submit" class="btn btn-dark mb-0" [disabled]="!loginForm.valid">Login</button> -->
+                                    <button type="submit" class="btn btn-primary mb-0 rounded-pill"
+                                        [disabled]="loaderService.isLoadingData()">
+                                        @if(loaderService.isLoadingData()){
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span class="px-1"></span>
+                                        <span role="status">Requesting code...</span>
+                                        }
+                                        @if(!loaderService.isLoadingData()){
+                                        <span role="status">Get SMS Code</span>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+
+                            @if(errorMessage){
+                            <div class="mt-2"><span
+                                    class="badge bg-danger bg-opacity-10 text-danger">{{errorMessage}}</span></div>
+                            }
+
+                        </form>
+                        <!-- Form END -->
+
+                        <!-- Sign up link -->
+                        <div class="mt-4 text-center">
+                            <span>Have an account?<a href="#" routerLink="/login" [queryParams]="externalQueryParams">
+                                    Sign In</a></span>
+                        </div>
+                    </div>
+                    }
+
+                    @if(VERIFYPHONE_STAGE){
+                    <div class="col-sm-10 col-xxl-12  m-auto  mt-4  mb-5">
+
+                        <!-- <a routerLink="/"><img style="height: 72px;" src="../../../../assets/images/logo/newlogo2.svg"  -->
+                        <a routerLink="/"><img style="height: 72px;"
+                                src="../../../../assets/images/logo/newlogo2Square.svg" class="h-50px mb-4"
+                                alt="logo"></a>
+
+                        <h2 class="mb-0 mb-2">We sent you a code via SMS</h2>
+                        <p class="mx-0 mb-2">Enter the code sent to your phone to continue</p>
+
+
+                        <!-- Form START -->
+                        <form [formGroup]="verifyPhoneForm" (ngSubmit)="onSubmitPhoneVerification()" novalidate>
+
+                            <div class="form-group mb-3">
+                                <!-- <label for="f1">SMS Code</label> -->
+                                <input id="f1" type="text" placeholder="Enter SMS code"
+                                    class="form-control {{f2['phonecode'].invalid ? 'is-invalid':'is-valid'}}"
+                                    formControlName="phonecode" aria-label="SMS code" required>
+                                <!-- <small id="emailHelp" class="form-text text-muted">Something happened, try again.</small> -->
+                            </div>
+
+
+                            <!-- Button -->
+                            <div class="align-items-center mt-0">
+                                <div class="d-grid">
+                                    <!-- <button type="submit" class="btn btn-dark mb-0" [disabled]="!loginForm.valid">Login</button> -->
+                                    <button type="submit" class="btn btn-primary mb-0 rounded-pill"
+                                        [disabled]="loaderService.isLoadingData()">
+                                        @if(loaderService.isLoadingData()){
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span class="px-1"></span>
+                                        <span role="status">Requesting...</span>
+                                        }
+                                        @if(!loaderService.isLoadingData()){
+                                        <span role="status">Confirm</span>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+
+                            @if(errorMessage){
+                            <div class="mt-2"><span
+                                    class="badge bg-danger bg-opacity-10 text-danger">{{errorMessage}}</span></div>
+                            }
+
+                        </form>
+                        <!-- Form END -->
+
+                        <!-- Sign up link -->
+                        <div class="mt-4 text-center">
+                            <span>Have an account?<a href="#" routerLink="/login" [queryParams]="externalQueryParams">
+                                    Sign In</a></span>
+                        </div>
+                    </div>
+                    }
+
+                    @if(CREATEACCOUNT_STAGE){
+                    <div class="col-sm-10 col-xxl-12  m-auto  mt-4  mb-5">
+                        <a routerLink="/"><img style="height: 72px;"
+                                src="../../../../assets/images/logo/newlogo2Square.svg" class="h-50px mb-4"
+                                alt="logo"></a>
+
+                                <h2 class="mt-2 mb-2">One last thing</h2>
+                        <!-- <p class="mx-0 mb-2">Tell us </p> -->
+
+
+                        <form [formGroup]="signupForm" (ngSubmit)="onSubmitCreateAccountForm()" novalidate>
+                            <div class="mb-4">
+                                <label class="form-label" for="su-name">First name</label>
+                                <input placeholder="Enter your first name"
+                                    class="form-control form-control-lg {{f3['firstname'].invalid && f3['firstname'].touched ? 'is-invalid':'is-valid'}}"
+                                    formControlName="firstname" aria-label="Firstname" required />
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="su-name">Last name</label>
+                                <input placeholder="Enter your last name"
+                                    class="form-control form-control-lg {{f3['lastname'].invalid && f3['lastname'].touched ? 'is-invalid':'is-valid'}}"
+                                    formControlName="lastname" aria-label="Lastname" required />
+                            </div>
+
+                            <div class="mb-4"><label class="form-label" for="gender">Gender</label>
+                                <select
+                                    class="form-select form-control-lg {{f3['gender'].invalid && f3['gender'].touched ? 'is-invalid':'is-valid'}}"
+                                    formControlName="gender" required>
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="M">MALE</option>
+                                    <option value="F">FEMALE</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4"><label class="form-label" for="su-email">Email address</label><input
+                                    type="email" placeholder="Enter your email"
+                                    class="form-control form-control-lg {{f3['email'].invalid && f3['email'].touched ? 'is-invalid':'is-valid'}}"
+                                    formControlName="email" aria-label="Email" required /></div>
+
+                            <div class="mb-4"><label class="form-label" for="su-password">Password <span
+                                        class="fs-sm text-muted">min. 8 char</span></label>
+                                <div class="password-toggle"><input id="su-password" minLength="8"
+                                        placeholder="Choose your password"
+                                        class="form-control form-control-lg {{f3['password'].invalid && f3['password'].touched ? 'is-invalid':'is-valid'}}"
+                                        formControlName="password" aria-label="Password" required /><label
+                                        class="password-toggle-btn" aria-label="Show/hide password"><input
+                                            type="checkbox" class="password-toggle-check" /><span
+                                            class="password-toggle-indicator"></span></label></div>
+                            </div>
+                            <!-- <div class="mb-4"><label class="form-label" for="su-confirm-password">Confirm
+                                password</label>
+                            <div class="password-toggle"><input id="su-confirm-password" minLength="8"
+                                    required="" type="password" class="form-control" /><label
+                                    class="password-toggle-btn" aria-label="Show/hide password"><input
+                                        type="checkbox" class="password-toggle-check" /><span
+                                        class="password-toggle-indicator"></span></label></div>
+                        </div> -->
+                            <!-- <app-webcam-capture></app-webcam-capture> -->
+
+
+                            <div class="mb-4 form-check"><input type="checkbox"
+                                    class="form-check-input {{f3['acceptterms'].invalid && f3['acceptterms'].touched ? 'is-invalid':'is-valid'}}"
+                                    formControlName="acceptterms" required /><label title="" for="terms-agree"
+                                    class="form-check-label"><span>By joining, I agree to the </span><a
+                                        href="#" routerLink="/app/pages/tos" target="_blank">Terms of Service</a><span> and </span><a
+                                        href="#" routerLink="/app/pages/privacy-policy" target="_blank">Privacy policy</a></label></div>
+
+
+
+                            <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill">Sign up</button>
+
+                            <div class="mt-sm-4 pt-md-3">Already have an account? <a href="#" routerLink="/login"
+                                    [queryParams]="externalQueryParams">Sign in</a>
+                            </div>
+                        </form>
+                    </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <app-globalfooter></app-globalfooter> -->
+
+</main>

@@ -10,3 +10,15 @@
   },
   "sideEffects": false
 }
+
+to add a component while in the workspace do:
+
+ng generate component meetingpointpicker --project=cartrips-shared-ui --export
+
+ng generate component supportmessagecomponent --project=cartrips-shared-ui --export
+
+cd dist/cartrips-shared-ui
+npm publish
+
+
+ng generate component unifiedlogin --project=cartrips-shared-ui --export

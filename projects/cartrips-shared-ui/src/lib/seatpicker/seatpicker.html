@@ -1,1 +1,167 @@
-<p>seatpicker works!</p>
+@if(vehicleConfig.vehicletype){
+    <div class="d-flex justify-content-between pb-3 pb-sm-4 mb-xl-2">
+      <!-- <label class="form-label text-nowrap mt-2 mb-0 me-3">Preview: </label> -->
+    
+      <div class="nav nav-pills flex-wrap justify-content-between gap-1  "  >
+    
+          <div>
+            <input type="checkbox" class="btn-check bg-dark text-light" style="outline: none !important; box-shadow: none !important;"
+             id="{{vehicleConfig.cc}}-seat-0" name="vehicletype" tabindex="-1" disabled>
+            <label class="nav-link bg-dark text-light" style="outline: none !important; box-shadow: none !important;" for="{{vehicleConfig.cc}}-seat-0" tabindex="-1" disabled>Driver</label>
+          </div>
+          <div></div>
+          <div>
+            <input (click)="toggleSeatAvailability(0)"  type="checkbox" class="btn-check"
+             id="{{vehicleConfig.cc}}-seat-1" name="vehicletype" [disabled]="!isEnabledAtIndex(0)" >
+            <label class="nav-link " for="{{vehicleConfig.cc}}-seat-1">
+              @if(bookingMode){
+                @if(selectedAtIndex(0)){
+                  <i class="fi-check fs-base me-1 text-success" ></i>
+                  1
+                }@else{
+                  <!-- <i class="fi-user fs-base me-1"></i> -->
+                  @if( isAvailableAtIndex(0) ){
+                    <i class="fi-user fs-base me-1"></i>
+                    1
+                  }@else{
+                    <i class="fi-close fs-base me-1 text-danger"></i>
+                    <del>1</del>
+                  }
+                }
+                
+              }@else{
+                @if( isAvailableAtIndex(0) ){
+                  <i class="fi-user fs-base me-1"></i>
+                  1
+                }@else{
+                  <i class="fi-close fs-base me-1 text-danger"></i>
+                  <del>1</del>
+                }
+              }
+            </label>
+          </div>
+    
+        <div class="w-100"></div>
+    
+        <!-- {{bookingMode && selectedAtIndex(i+1) ? 'bg-success':''}} -->
+         
+        @for(seat of seats.slice(1); track seat.seatnumber; let i= $index){
+          <div>
+            <input type="checkbox" class="btn-check  " id="{{vehicleConfig.cc}}-seat-{{seat.seatnumber}}" name="vehicletype"
+             (click)="toggleSeatAvailability(seat.seatnumber-1)" [disabled]="!isEnabledAtIndex(i+1)">
+            <label class="nav-link  " for="{{vehicleConfig.cc}}-seat-{{seat.seatnumber}}">
+              @if(bookingMode){
+                @if(selectedAtIndex(i+1)){
+                  <!-- style="font-size: 24px !important; font-weight: bold !important;" -->
+                  <i class="fi-check fs-base me-1 text-success" ></i>
+                  {{seat.seatnumber}}
+                }@else{
+                  <!-- <i class="fi-user fs-base me-1"></i> -->
+                  @if( isAvailableAtIndex(i+1) ){
+                    <i class="fi-user fs-base me-1"></i>
+                    {{seat.seatnumber}}
+                  }@else{
+                    <i class="fi-close fs-base me-1 text-danger"></i>
+                    <del>{{seat.seatnumber}}</del>
+                  }
+  
+                }
+                
+                
+              }@else{
+                @if( isAvailableAtIndex(i+1) ){
+                  <i class="fi-user fs-base me-1"></i>
+                  {{seat.seatnumber}}
+                }@else{
+                  <i class="fi-close fs-base me-1 text-danger"></i>
+                  <del>{{seat.seatnumber}}</del>
+                }
+              }
+            </label>
+          </div>
+    
+          @if((i+1) % vehicleConfig.seatsperrow == 0){
+            <div class="w-100"></div>
+          }
+    
+        }
+      </div>
+    </div>
+  }
+  
+  
+  <!-- <div class="d-flex justify-content-between pb-3 pb-sm-4 mb-xl-2">
+      <label class="form-label text-nowrap mt-2 mb-0 me-3">Layout * </label>
+  
+      <div class="nav nav-pills flex-wrap justify-content-end gap-2">
+          @for(seat of seats; track seat.seatnumber; let i= $index){
+              @if(seat.seatnumber == 0){
+              <div>
+                  <input type="radio" class="btn-check" id="seat-{{seat.seatnumber}}" name="bedrooms">
+                  <label class="nav-link" for="seat-{{seat.seatnumber}}">Driver</label>
+              </div>
+              }@else{
+              <div>
+                  <input type="radio" class="btn-check" id="seat-{{seat.seatnumber}}" name="bedrooms">
+                  <label class="nav-link" for="seat-{{seat.seatnumber}}">
+                      <i class="fi-user fs-base me-1"></i>
+                      {{seat.seatnumber}}
+                  </label>
+              </div>
+              }
+  
+              @if((i+1) % vehicleConfig.seatsperrow == 0){
+                  <div class="w-100"></div>
+              }
+          }
+      </div>
+  </div> -->
+  
+  
+  
+  
+  <!-- <div class="d-flex justify-content-between pb-3 pb-sm-4 mb-xl-2">
+      <label class="form-label text-nowrap mt-2 mb-0 me-3">Layout *</label>
+  
+      <div class="nav nav-pills flex-wrap justify-content-end gap-2">
+        <div>
+          <input type="radio" class="btn-check" id="bedrooms-any" name="bedrooms" checked="">
+          <label class="nav-link" for="bedrooms-any">Driver</label>
+        </div>
+        <div>
+          <input type="radio" class="btn-check" id="bedrooms-1" name="bedrooms">
+          <label class="nav-link" for="bedrooms-1">
+            <i class="fi-user fs-base me-1"></i>
+            1
+          </label>
+        </div>
+        <div>
+          <input type="radio" class="btn-check" id="bedrooms-2" name="bedrooms">
+          <label class="nav-link" for="bedrooms-2">
+            <i class="fi-user fs-base me-1"></i>
+            2
+          </label>
+        </div>
+        <div>
+          <input type="radio" class="btn-check" id="bedrooms-3" name="bedrooms">
+          <label class="nav-link" for="bedrooms-3">
+            <i class="fi-user fs-base me-1"></i>
+            3
+          </label>
+        </div>
+        <div>
+          <input type="radio" class="btn-check" id="bedrooms-4" name="bedrooms">
+          <label class="nav-link" for="bedrooms-4">
+            <i class="fi-user fs-base me-1"></i>
+            4
+          </label>
+        </div>
+        <div>
+          <input type="radio" class="btn-check" id="bedrooms-5" name="bedrooms">
+          <label class="nav-link" for="bedrooms-5">
+            <i class="fi-user fs-base me-1"></i>
+            5
+          </label>
+        </div>
+      </div>
+    </div> -->
